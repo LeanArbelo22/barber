@@ -1,0 +1,102 @@
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-y: scroll;
+}
+
+body {
+  margin: 0;
+  font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+  background-color: #121212;
+  color: #f0f0f0;
+}
+
+input,
+button {
+  font-size: 1rem;
+  padding: 0.5rem;
+  border-radius: 8px;
+  border: none;
+}
+
+input {
+  background-color: #1e1e1e;
+  color: white;
+  border: 1px solid #444;
+}
+
+button {
+  background-color: #2d6cdf;
+  font-family: 'Poppins'!important;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 0.4rem 1rem;
+  font-weight: 500;
+  /* text-transform: uppercase; */
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+button:hover {
+  /* background-color: #1e4bb8; */
+  transform: translateY(-1px);
+}
+
+.container {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+.cliente-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.cliente-item span {
+  font-size: 1.2rem;
+  font-weight: 500;
+  margin: 10px 0;
+}
+
+ul {
+  padding: 0;
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #1a1a1a;
+  /* fondo oscuro */
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #444;
+  /* color del "pulgar" del scroll */
+  border-radius: 10px;
+  border: 2px solid transparent;
+  /* hace que el thumb no toque el borde */
+  background-clip: content-box;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: #666;
+}
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #444 #1a1a1a;
+}
