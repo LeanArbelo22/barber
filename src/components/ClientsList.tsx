@@ -5,15 +5,18 @@ import type { Cliente } from "../types";
 import toast from "react-hot-toast";
 import styles from "../styles/clientList.module.css";
 import ClientEdit from "./ClientEdit";
+import ClientActions from "./ClientActions";
+import ClientView from "./ClientView";
 
 const ClientsList = () => {
   const clientes = useClientStore((state) => state.clientes);
-  // ! const eliminarCliente = useClientStore((state) => state.eliminarCliente); FALTA DESHABILITAR
+  // ! const eliminarCliente = useClientStore((state) => state.eliminarCliente); FALTA FUNCION DESHABILITAR
 
   // * estados necesarios para abrir los modales de las acciones del listado (apuntar las acciones al cliente seleccionado)
   const [selectedClient, setSelectedClient] = useState<Cliente | null>(null);
   const [editForm, setEditForm] = useState<Omit<Cliente, "id"> | null>(null);
   const [historial, setHistorial] = useState<Cliente | null>(null);
+  const [viewClient, setViewClient] = useState<Cliente | null>(null);
 
   if (clientes.length === 0) {
     return (
@@ -49,53 +52,40 @@ const ClientsList = () => {
               <td>
                 {cliente.nombre} {cliente.apellido}
               </td>
-              <td>
-                <button>👁️</button> {/* falta implementar */}
-              </td>
-              <td>
-                <button
-                  onClick={() => {
-                    setSelectedClient(cliente);
-                    setEditForm({ ...cliente });
-                  }}
-                >
-                  ✏️
-                </button>
-              </td>
-              <td>
-                <button onClick={() => setHistorial(cliente)}>📜</button>
-              </td>
-              <td>
-                <button
-                  onClick={() => {
-                    const confirmacion = window.confirm(
-                      `¿Seguro que queres deshabilitar a ${cliente.nombre}? Ya no podra agendar un nuevo turno`
-                    );
-                    if (confirmacion) {
-                      // ! eliminarCliente(cliente.id); falta implementar logica de deshabilitar
-                      toast.success("Cliente deshabilitado");
-                    }
-                  }}
-                >
-                  🚫
-                </button>
-              </td>
-              <td>
-                <button onClick={() => toast.success("Turno nuevo")}>🗓️</button>
-              </td>
+              <ClientActions
+                cliente={cliente}
+                onVer={setViewClient}
+                onEditar={(cliente) => {
+                  setSelectedClient(cliente);
+                  setEditForm({ ...cliente });
+                }}
+                onHistorial={setHistorial}
+                onDeshabilitar={(cliente) => {
+                  const confirmacion = window.confirm(
+                    `¿Seguro que querés deshabilitar a ${cliente.nombre}?`
+                  );
+                  if (confirmacion) {
+                    toast.success("Cliente deshabilitado");
+                    // eliminarCliente(cliente.id);
+                  }
+                }}
+                onNuevoTurno={(cliente) =>
+                  toast.success(`Turno nuevo para ${cliente.nombre}`)
+                }
+              />
             </tr>
           ))}
         </tbody>
       </table>
 
+      {/* modal ver cliente */}
+      {viewClient && (
+        <ClientView cliente={viewClient} onClose={() => setViewClient(null)} />
+      )}
+
       {/* modal editar */}
       {selectedClient && editForm && (
-        <ClientEdit
-          client={selectedClient}
-          setClient={setSelectedClient}
-          form={editForm}
-          setForm={setEditForm}
-        />
+        <ClientEdit client={selectedClient} setClient={setSelectedClient} />
       )}
 
       {/* modal historial (falta crear componente e implementar logica por separado) */}

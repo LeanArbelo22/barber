@@ -5,34 +5,25 @@ import toast from "react-hot-toast";
 import styles from "../styles/modal.module.css";
 import btnStyles from "../styles/button.module.css";
 import Form from "./Form";
+import { useClientForm } from "../hooks/useClientForm";
 
 type Props = {
   client: Cliente;
   setClient: (client: Cliente | null) => void;
-  form: Omit<Cliente, "id">;
-  setForm: (form: Omit<Cliente, "id"> | null) => void;
 };
 
-function ClientEdit({client, setClient, form, setForm} : Props) {
+function ClientEdit({client, setClient} : Props) {
   const editarCliente = useClientStore((state) => state.editarCliente);
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    if (form) {
-      setForm({ ...form, [name]: value });
-    }
-  };
+  const { form, handleChange } = useClientForm(client);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    if (client && form) {
-      const confirmar = window.confirm("¿Confirmas los cambios?");
-      if (confirmar) {
-        editarCliente(client.id, form);
-        toast.success("Cliente actualizado");
-        setClient(null);
-      }
+    const confirmar = window.confirm("Confirmas los cambios?");
+    if (confirmar) {
+      editarCliente(client.id, form);
+      toast.success("Cliente actualizado");
+      setClient(null);
     }
   };
 
