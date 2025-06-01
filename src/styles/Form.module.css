@@ -10,54 +10,11 @@
   gap: 1.2rem;
 }
 
-.formContainer h2 {
-  margin-top: 0;
-  font-size: 1.5rem;
-  color: #fff;
-}
-
-.input {
-  background-color: #2a2a2a;
-  color: white;
-  border: 1px solid #444;
-  border-radius: 6px;
-  padding: 0.75rem 1rem;
-  font-size: 1rem;
-  transition: border 0.2s;
-  width: 100%;
-}
-
-.input::placeholder {
-  color: #aaa;
-}
-
-.input:focus {
-  border-color: #007bff;
-  outline: none;
-}
-
-.button {
-  background-color: #2d6cdf;
-  color: white;
-  border: none;
-  border-radius: 8px;
-  padding: 0.7rem 1.2rem;
-  font-weight: 500;
-  font-size: 1rem;
-  cursor: pointer;
-  transition: background-color 0.25s ease, transform 0.1s ease;
-}
-
-.button:hover {
-  background-color: #1e4bb8;
-  transform: translateY(-1px);
-}
-
 .inlineGroup {
   display: flex;
   gap: 0.5rem;
 }
 
-.inlineGroup .input {
+.inlineGroup input {
   flex: 1;
 }

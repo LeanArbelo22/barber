@@ -1,4 +1,4 @@
-import styles from "../styles/Form.module.css";
+import styles from "../styles/form.module.css";
 import type { Cliente } from "../types";
 
 type Props = {

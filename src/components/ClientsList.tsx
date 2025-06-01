@@ -3,10 +3,10 @@ import { useClientStore } from "../store/clientStore";
 import Modal from "./Modal";
 import type { Cliente } from "../types";
 import toast from "react-hot-toast";
-import styles from "../styles/ClientsList.module.css";
+import styles from "../styles/clientList.module.css";
 import ClientEdit from "./ClientEdit";
 
-const ClientList = () => {
+const ClientsList = () => {
   const clientes = useClientStore((state) => state.clientes);
   // ! const eliminarCliente = useClientStore((state) => state.eliminarCliente); FALTA DESHABILITAR
 
@@ -110,4 +110,4 @@ const ClientList = () => {
   );
 };
 
-export default ClientList;
+export default ClientsList;

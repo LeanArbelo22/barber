@@ -2,7 +2,8 @@ import { useClientStore } from "../store/clientStore";
 import Modal from "./Modal";
 import type { Cliente } from "../types";
 import toast from "react-hot-toast";
-import modalStyles from "../styles/modal.module.css";
+import styles from "../styles/modal.module.css";
+import btnStyles from "../styles/button.module.css";
 import Form from "./Form";
 
 type Props = {
@@ -42,16 +43,16 @@ function ClientEdit({client, setClient, form, setForm} : Props) {
         onSubmit={handleSubmit}
         value={form}
         onChange={handleChange}
-        className={modalStyles.formContainer}
+        className={styles.formContainer}
       >
-        <div className={modalStyles.btnGroup}>
-          <button type='submit' className={modalStyles.button}>
+        <div className={styles.btnGroup}>
+          <button type='submit' className={btnStyles.button}>
             Guardar Cambios
           </button>
           <button
             type='button'
             onClick={() => setClient(null)}
-            className={`${modalStyles.button} ${modalStyles.secondary}`}
+            className={`${btnStyles.button} ${btnStyles.secondary}`}
           >
             Cancelar
           </button>

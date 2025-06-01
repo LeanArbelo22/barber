@@ -1,10 +1,10 @@
 import { useState } from "react";
 import ClientForm from "../components/ClientForm";
-import ClientList from "../components/ClientList";
+import ClientsList from "../components/ClientsList";
 import styles from "../styles/clientsPage.module.css";
-import classNames from "classnames";
+import btnStyles from "../styles/button.module.css";
 
-const ClientesPage = () => {
+const ClientsPage = () => {
   const [mostrarFormulario, setMostrarFormulario] = useState(false);
 
   return (
@@ -13,24 +13,25 @@ const ClientesPage = () => {
         <h1>CLIENTES</h1>
         <button
           onClick={() => setMostrarFormulario((prev) => !prev)}
-          className={classNames(styles.toggleButton, { [styles.cerrar]: mostrarFormulario})}
+          className={`${btnStyles.button} ${
+            mostrarFormulario && btnStyles.danger
+          }`}
         >
           {mostrarFormulario ? "Cerrar" : "Nuevo"}
         </button>
       </div>
 
       <div
-        className={classNames(styles.formWrapper, {
-          // css modules genera un nombre de clase, para usar el valor real que genero se usan los corchetes [style.clase] en este caso si mostrar formulario es true se le asigna la clase .oculto al contenedor
-          [styles.oculto]: !mostrarFormulario,
-        })}
+        className={`${styles.formWrapper} ${
+          !mostrarFormulario && styles.oculto
+        }`}
       >
         <ClientForm />
       </div>
 
-      <ClientList />
+      <ClientsList />
     </div>
   );
 };
 
-export default ClientesPage;
+export default ClientsPage;

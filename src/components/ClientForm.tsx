@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { useClientStore } from "../store/clientStore";
 import toast from "react-hot-toast";
-import styles from "../styles/Form.module.css";
+import styles from "../styles/form.module.css";
+import btnStyles from "../styles/button.module.css";
 import Form from "./Form";
 
 const ClientForm = () => {
@@ -25,10 +26,10 @@ const ClientForm = () => {
     const { name, value } = event.target;
 
     /*
-    * para entender mejor esta linea vean el archivo de store/clientStore donde explico el spread operator
-    * (prev) es el valor previo del estado
-    * { ...prev, [name]: value } traemos los valores previos y actualizamos campo por campo
-    * [name]: value es una propiedad dinamica, basicamente "pone como clave del objeto el valor de name y asignale el value" */
+     * para entender mejor esta linea vean el archivo de store/clientStore donde explico el spread operator
+     * (prev) es el valor previo del estado
+     * { ...prev, [name]: value } traemos los valores previos y actualizamos campo por campo
+     * [name]: value es una propiedad dinamica, basicamente "pone como clave del objeto el valor de name y asignale el value" */
     setForm((prev) => ({ ...prev, [name]: value }));
   };
 
@@ -72,7 +73,7 @@ const ClientForm = () => {
       value={form}
       className={styles.formContainer}
     >
-      <button type='submit' className={styles.button}>
+      <button type='submit' className={btnStyles.button}>
         Agregar
       </button>
     </Form>
