@@ -5,7 +5,7 @@ import btnStyles from "../styles/button.module.css";
 import Form from "./Form";
 import { useClientForm } from "../hooks/useClientForm";
 
-const ClientForm = () => {
+function ClientForm() {
   // * traemos la funcion de agregar cliente desde el clientStore
   const agregarCliente = useClientStore((state) => state.agregarCliente);
   const { form, handleChange, resetForm, validar } = useClientForm();
@@ -39,6 +39,6 @@ const ClientForm = () => {
       </button>
     </Form>
   );
-};
+}
 
 export default ClientForm;

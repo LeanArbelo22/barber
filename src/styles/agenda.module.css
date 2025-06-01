@@ -1,0 +1,97 @@
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.viewSelector button {
+  margin-left: 0.5rem;
+  padding: 0.5rem 1rem;
+  background-color: #2a2a2a;
+  border: none;
+  border-radius: 6px;
+  color: white;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.viewSelector .active {
+  background-color: #2d6cdf;
+}
+
+.agendaContainer {
+  overflow-x: auto;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 80px repeat(7, 1fr);
+}
+
+.headerRow,
+.row {
+  display: contents;
+}
+
+.timeCell {
+  background-color: #181818;
+  color: #aaa;
+  padding: 0.5rem;
+  border: 1px solid #333;
+  text-align: center;
+  font-size: 0.85rem;
+}
+
+.dayHeader {
+  background-color: #222;
+  color: #f0f0f0;
+  padding: 0.75rem;
+  text-align: center;
+  border: 1px solid #333;
+  font-weight: 600;
+}
+
+.cell {
+  height: 50px;
+  border: 1px solid #2c2c2c;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.cell:hover {
+  background-color: #2d6cdf33;
+}
+
+.placeholder {
+  text-align: center;
+  color: #888;
+  margin-top: 2rem;
+}
+
+.disabled {
+  background-color: #464141;
+  opacity: 0.4;
+  pointer-events: none;
+  cursor: not-allowed;
+}
+
+.pendiente {
+  background-color: #2d6cdf;
+  color: white;
+  padding: 2px 4px;
+  font-size: 0.85rem;
+  margin: 2px 0;
+  border-radius: 4px;
+  text-align: center;
+}
+
+.realizado {
+  background-color: #29a744;
+  color: white;
+  padding: 2px 4px;
+  font-size: 0.85rem;
+  margin: 2px 0;
+  border-radius: 4px;
+  text-align: center;
+}

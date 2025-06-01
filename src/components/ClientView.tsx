@@ -8,7 +8,7 @@ type Props = {
 };
 
 // * modal para ver la info de cliente (sin opcion a de editarlo)
-const ClientView = ({ cliente, onClose }: Props) => {
+function ClientView({ cliente, onClose }: Props) {
   return (
     <Modal onClose={onClose}>
       <div className={styles.formContainer}>
@@ -41,6 +41,6 @@ const ClientView = ({ cliente, onClose }: Props) => {
       </div>
     </Modal>
   );
-};
+}
 
 export default ClientView;

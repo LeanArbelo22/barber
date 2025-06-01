@@ -4,7 +4,7 @@ import ClientsList from "../components/ClientsList";
 import styles from "../styles/clientsPage.module.css";
 import btnStyles from "../styles/button.module.css";
 
-const ClientsPage = () => {
+function ClientsPage() {
   const [mostrarFormulario, setMostrarFormulario] = useState(false);
 
   return (
@@ -32,6 +32,6 @@ const ClientsPage = () => {
       <ClientsList />
     </div>
   );
-};
+}
 
 export default ClientsPage;

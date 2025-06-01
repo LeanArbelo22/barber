@@ -7,10 +7,15 @@ import styles from "../styles/clientList.module.css";
 import ClientEdit from "./ClientEdit";
 import ClientActions from "./ClientActions";
 import ClientView from "./ClientView";
+import { useTurnoStore } from "../store/turnoStore";
+import { useNavigate } from "react-router-dom";
 
-const ClientsList = () => {
+function ClientsList() {
   const clientes = useClientStore((state) => state.clientes);
   // ! const eliminarCliente = useClientStore((state) => state.eliminarCliente); FALTA FUNCION DESHABILITAR
+
+  const turnoStore = useTurnoStore();
+  const navigate = useNavigate();
 
   // * estados necesarios para abrir los modales de las acciones del listado (apuntar las acciones al cliente seleccionado)
   const [selectedClient, setSelectedClient] = useState<Cliente | null>(null);
@@ -69,9 +74,10 @@ const ClientsList = () => {
                     // eliminarCliente(cliente.id);
                   }
                 }}
-                onNuevoTurno={(cliente) =>
-                  toast.success(`Turno nuevo para ${cliente.nombre}`)
-                }
+                onNuevoTurno={() => {
+                  turnoStore.setClienteSeleccionado(cliente);
+                  navigate("/turnos");
+                }}
               />
             </tr>
           ))}
@@ -98,6 +104,6 @@ const ClientsList = () => {
       )}
     </div>
   );
-};
+}
 
 export default ClientsList;

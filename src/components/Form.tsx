@@ -10,14 +10,14 @@ type Props = {
   children: React.ReactNode;
 };
 
-const Form = ({
+function Form({
   className,
   title,
   onSubmit,
   value,
   onChange,
   children,
-}: Props) => {
+}: Props) {
   return (
     <form onSubmit={onSubmit} className={className}>
       <h2>{title}</h2>
@@ -75,6 +75,6 @@ const Form = ({
       {children} {/* aca van los botones */}
     </form>
   );
-};
+}
 
 export default Form;

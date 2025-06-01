@@ -5,7 +5,7 @@ type Props = {
   onClose: () => void;
 };
 
-const Modal = ({ children, onClose }: Props) => {
+function Modal({ children, onClose }: Props) {
   return (
     <div className={styles.backdrop}>
       <div className={styles.modal}>
@@ -16,6 +16,6 @@ const Modal = ({ children, onClose }: Props) => {
       </div>
     </div>
   );
-};
+}
 
 export default Modal;

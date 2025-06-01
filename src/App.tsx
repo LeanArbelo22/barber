@@ -1,17 +1,24 @@
-import AppRoutes from "./routes/AppRoutes";
-
-// Libreria de notificaciones
-import { Toaster } from "react-hot-toast"; 
+import Sidebar from "./components/Sidebar";
+import { Toaster } from "react-hot-toast";
+import { Routes, Route } from "react-router-dom";
+import ClientsPage from "./pages/ClientsPage";
+import TurnosPage from "./pages/TurnosPage";
 
 function App() {
   return (
-    <>
-      <AppRoutes />
+    <div style={{ display: "flex" }}>
+      <Sidebar />
+      <div className='app-container'>
+        {/* acá van las rutas */}
+        <Routes>
+          <Route path='/clientes' element={<ClientsPage />} />
+          <Route path='/turnos' element={<TurnosPage />} />
+          {/* <Route path='/estadisticas' element={<EstadisticasPage />} /> */}
+        </Routes>
+      </div>
       <Toaster position='top-center' />
-    </>
+    </div>
   );
 }
 
 export default App;
-
-// continua en routes/AppRoutes.tsx ...

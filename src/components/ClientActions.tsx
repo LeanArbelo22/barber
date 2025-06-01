@@ -10,14 +10,14 @@ type Props = {
 };
 
 // * botones del listado de clientes y sus acciones
-const ClientActions = ({
+function ClientActions({
   cliente,
   onVer,
   onEditar,
   onHistorial,
   onDeshabilitar,
   onNuevoTurno,
-}: Props) => {
+}: Props) {
   return (
     <>
       <td>
@@ -37,6 +37,6 @@ const ClientActions = ({
       </td>
     </>
   );
-};
+}
 
 export default ClientActions;

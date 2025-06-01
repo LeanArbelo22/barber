@@ -10,3 +10,14 @@ export interface Cliente {
   email: string;
   notas?: string;
 }
+
+export interface Turno {
+  id: string;
+  cliente: Cliente;
+  fecha: string; // "2024-06-05"
+  hora: string; // "13:30"
+  servicio?: string; // opcional, si hay diferentes serviciso
+  notas?: string;
+  realizado?: boolean; // para marcar si el turno se concreto
+  montoAbonado: number; // total efectivamente pagado por el cliente
+}
