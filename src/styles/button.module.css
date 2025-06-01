@@ -32,3 +32,11 @@
 .danger:hover {
   background-color: #a93226;
 }
+
+.cancelado {
+  background-color: #a83232;
+}
+
+.cancelado:hover {
+  background-color: #801c1c;
+}

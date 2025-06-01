@@ -49,6 +49,14 @@ export const useClientStore = create<ClientState>((set) => ({
       telefono: "3516754321",
       email: "lazaro@gmail.com",
     },
+    {
+      id: uuidv4(),
+      nombre: "Pedro",
+      apellido: "Cordon",
+      dni: "40654321",
+      telefono: "351332211",
+      email: "pedro@gmail.com",
+    },
   ],
 
   // aca IMPLEMENTAMOS las funciones de ABM que se decalraron en la interfaz del estado

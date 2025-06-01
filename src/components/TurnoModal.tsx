@@ -1,88 +1,102 @@
 import { useState } from "react";
 import { useTurnoStore } from "../store/turnoStore";
 import Modal from "./Modal";
-import type { Cliente } from "../types";
+import type { Cliente, Turno } from "../types";
 import styles from "../styles/modal.module.css";
 import buttonStyles from "../styles/button.module.css";
 import toast from "react-hot-toast";
+import { useClientStore } from "../store/clientStore";
 
 type Props = {
   fecha: string;
   hora: string;
   onClose: () => void;
+  turnoExistente?: Turno | null;
 };
 
-const TurnoModal = ({ fecha, hora, onClose }: Props) => {
-  const cliente = useTurnoStore((state) => state.clienteSeleccionado);
-  const [dni, setDni] = useState("");
+const TurnoModal = ({ fecha, hora, onClose, turnoExistente = null }: Props) => {
+  const clientePreseleccionado = useTurnoStore(
+    (state) => state.clienteSeleccionado
+  );
+  const agregarTurno = useTurnoStore((state) => state.agregarTurno);
+  const actualizarTurno = useTurnoStore((state) => state.actualizarTurno);
+  const clientes = useClientStore((state) => state.clientes);
+
   const [clienteManual, setClienteManual] = useState<Cliente | null>(null);
+  const [dni, setDni] = useState("");
 
   const [monto, setMonto] = useState("");
-  const [servicio, setServicio] = useState("");
-  const [notas, setNotas] = useState("");
+  const [servicio, setServicio] = useState(turnoExistente?.servicio || "");
+  const [notas, setNotas] = useState(turnoExistente?.notas || "");
 
-  // Simulación de búsqueda por DNI (más adelante se hace real)
+  const cliente =
+    turnoExistente?.cliente || clientePreseleccionado || clienteManual;
+
   const buscarCliente = () => {
-    if (dni === "12345678") {
-      setClienteManual({
-        id: "1",
-        nombre: "Cliente",
-        apellido: "Simulado",
-        dni,
-        telefono: "3510000000",
-        email: "cliente@ejemplo.com",
-        notas: "",
-      });
+    const cliente = clientes.filter((cliente) => cliente.dni === dni)[0];
+
+    if (cliente) {
+      setClienteManual(cliente);
     } else {
       toast.error("Cliente no encontrado");
     }
   };
 
-  const handleGuardar = () => {
-    const clienteFinal = cliente || clienteManual;
-    if (!clienteFinal) {
-      toast.error("Debe ingresar un cliente válido");
+  const guardarNuevoTurno = () => {
+    if (!cliente) {
+      toast.error("Debe seleccionar un cliente");
       return;
     }
 
-    const montoParsed = parseFloat(monto);
-    if (isNaN(montoParsed)) {
+    const nuevoTurno: Turno = {
+      id: crypto.randomUUID(),
+      cliente,
+      fecha,
+      hora,
+      servicio,
+      notas,
+      estado: "pendiente",
+    };
+
+    agregarTurno(nuevoTurno);
+    toast.success("Turno agendado");
+    onClose();
+  };
+
+  const marcarComoRealizado = () => {
+    const montoNum = parseFloat(monto);
+    if (isNaN(montoNum)) {
       toast.error("Monto inválido");
       return;
     }
 
-    // Simulación de guardado
-    console.log("Turno guardado:", {
-      id: crypto.randomUUID(),
-      cliente: clienteFinal,
-      fecha,
-      hora,
-      montoAbonado: montoParsed,
-      servicio,
-      notas,
-    });
+    if (turnoExistente) {
+      actualizarTurno(turnoExistente.id, {
+        montoAbonado: montoNum,
+        estado: "realizado",
+      });
+      toast.success("Realizado");
+      onClose();
+    }
+  };
 
-    toast.success("Turno agendado");
-    onClose();
+  const cancelarTurno = () => {
+    if (turnoExistente) {
+      actualizarTurno(turnoExistente.id, { estado: "cancelado" });
+      toast.success("Cancelado");
+      onClose();
+    }
   };
 
   return (
     <Modal onClose={onClose}>
       <div className={styles.formContainer}>
-        <h2>Nuevo Turno</h2>
+        <h2>{turnoExistente ? "Actualizar Turno" : "Nuevo Turno"}</h2>
         <p>
-          <strong>Fecha:</strong> {fecha}
-        </p>
-        <p>
-          <strong>Hora:</strong> {hora}
+          <strong>Fecha:</strong> {fecha} | <strong>Hora:</strong> {hora}
         </p>
 
-        {cliente ? (
-          <p>
-            <strong>Cliente:</strong> {cliente.nombre} {cliente.apellido} (
-            {cliente.dni})
-          </p>
-        ) : (
+        {!cliente && (
           <>
             <label>
               Ingresar DNI:
@@ -96,25 +110,15 @@ const TurnoModal = ({ fecha, hora, onClose }: Props) => {
             <button className={buttonStyles.button} onClick={buscarCliente}>
               Buscar
             </button>
-
-            {clienteManual && (
-              <p>
-                <strong>Cliente:</strong> {clienteManual.nombre}{" "}
-                {clienteManual.apellido}
-              </p>
-            )}
           </>
         )}
 
-        <label>
-          Monto abonado:
-          <input
-            type='number'
-            value={monto}
-            onChange={(e) => setMonto(e.target.value)}
-            className={styles.input}
-          />
-        </label>
+        {cliente && (
+          <p>
+            <strong>Cliente:</strong> {cliente.nombre} {cliente.apellido} (
+            {cliente.dni})
+          </p>
+        )}
 
         <label>
           Servicio:
@@ -136,15 +140,45 @@ const TurnoModal = ({ fecha, hora, onClose }: Props) => {
           />
         </label>
 
+        {turnoExistente && (
+          <label>
+            Monto abonado:
+            <input
+              type='number'
+              value={monto}
+              onChange={(e) => setMonto(e.target.value)}
+              className={styles.input}
+            />
+          </label>
+        )}
+
         <div className={styles.btnGroup}>
-          <button className={buttonStyles.button} onClick={handleGuardar}>
-            Guardar turno
-          </button>
+          {!turnoExistente && (
+            <button className={buttonStyles.button} onClick={guardarNuevoTurno}>
+              Guardar turno
+            </button>
+          )}
+          {turnoExistente && (
+            <>
+              <button
+                className={buttonStyles.button}
+                onClick={marcarComoRealizado}
+              >
+                Completar
+              </button>
+              <button
+                className={`${buttonStyles.button} ${buttonStyles.cancelado}`}
+                onClick={cancelarTurno}
+              >
+                Cancelar turno
+              </button>
+            </>
+          )}
           <button
             className={`${buttonStyles.button} ${buttonStyles.secondary}`}
             onClick={onClose}
           >
-            Cancelar
+            Cerrar
           </button>
         </div>
       </div>
