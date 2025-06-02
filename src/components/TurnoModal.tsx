@@ -14,7 +14,7 @@ type Props = {
   turnoExistente?: Turno | null;
 };
 
-const TurnoModal = ({ fecha, hora, onClose, turnoExistente = null }: Props) => {
+function TurnoModal({ fecha, hora, onClose, turnoExistente = null }: Props) {
   const clientePreseleccionado = useTurnoStore(
     (state) => state.clienteSeleccionado
   );
@@ -184,6 +184,6 @@ const TurnoModal = ({ fecha, hora, onClose, turnoExistente = null }: Props) => {
       </div>
     </Modal>
   );
-};
+}
 
 export default TurnoModal;

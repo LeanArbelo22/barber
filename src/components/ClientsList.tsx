@@ -10,12 +10,16 @@ import ClientView from "./ClientView";
 import { useTurnoStore } from "../store/turnoStore";
 import { useNavigate } from "react-router-dom";
 
+// * listado de clientes con botones de accion
 function ClientsList() {
+  // estado global clientes
   const clientes = useClientStore((state) => state.clientes);
-  // ! const eliminarCliente = useClientStore((state) => state.eliminarCliente); FALTA FUNCION DESHABILITAR
+  // aca deberiamos traer la funcion de deshabilitar (no desarrollada)
+  // ! const eliminarCliente = useClientStore((state) => state.eliminarCliente);
 
+  // estado global de turnos, se usa para pasar el cliente seleccionado al componente de turnos desde el listado de clientes
   const turnoStore = useTurnoStore();
-  const navigate = useNavigate();
+  const navigate = useNavigate(); // para navegar a /turnos cuando hacen click en nuevo turno
 
   // * estados necesarios para abrir los modales de las acciones del listado (apuntar las acciones al cliente seleccionado)
   const [selectedClient, setSelectedClient] = useState<Cliente | null>(null);

@@ -6,6 +6,7 @@ export function useClientForm(initial?: Omit<Cliente, "id">) {
   // * creamos el estado form que va a tener un objeto con toda la info ingresada en el formulario (luego la usamos para cargar en el array de clientes)
   const [form, setForm] = useState<Omit<Cliente, "id">>(
     initial ?? {
+      // * el ?? se usa cuando queres que algo tenga un valor por defecto si no existe (null o undefined)
       nombre: "",
       apellido: "",
       dni: "",
@@ -41,7 +42,7 @@ export function useClientForm(initial?: Omit<Cliente, "id">) {
     });
   };
 
-  // * para validar que los datos de correo y telefono sean validos, ademas de usar los types "email" y "tel" en los inputs, usamos expresiones regulares (regex), que es como una formula que verifica si la info ingresada cumple ciertos requisitos o un patron, los regex se escriben: /patron/
+  // * las expresiones regulares (regex), son como una formula que sirven para verificar si la info ingresada cumple ciertos requisitos o un patron, los regex se escriben: /patron/ 
   const validar = () => {
     const emailRegex = /\S+@\S+\.\S+/; // algo@algo.algo
     const telRegex = /^[0-9]{6,15}$/; // solo numeros y que tenga entre 6 y 15 digitos

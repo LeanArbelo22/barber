@@ -7,7 +7,7 @@ type Props = {
   onClose: () => void;
 };
 
-// * modal para ver la info de cliente (sin opcion a de editarlo)
+// * modal para ver la info de cliente (sin opcion de editarlo)
 function ClientView({ cliente, onClose }: Props) {
   return (
     <Modal onClose={onClose}>

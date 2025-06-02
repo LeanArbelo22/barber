@@ -5,83 +5,95 @@ type Props = {
   turnos: Turno[];
 };
 
-const ReporteEstadisticasGenerales = ({ turnos }: Props) => {
-  const totalCobrado = turnos
-    .filter((t) => t.estado === "realizado" && t.montoAbonado)
-    .reduce((sum, t) => sum + (t.montoAbonado || 0), 0);
+type ClienteAgrupado = {
+  cliente: string;
+  cantidad: number;
+  totalGastado: number;
+  cancelados: number;
+};
 
+type ClienteFrecuente = {
+  cliente: string;
+  cantidad: number;
+};
+
+// * seccion de estadisticas generales (siempre aparecen en la pag de estadisticas y no se modifican al filtrar la tabla)
+function ReporteEstadisticasGenerales({ turnos }: Props) {
+  // la explicacion de la funcion esta en ReporteEstadisticasCliente
+  const totalCobrado = turnos
+    .filter((t) => t.estado === "realizado")
+    .reduce((sum, t) => sum + t.montoAbonado!, 0);
+
+  // * Set es una estructura de datos similar a una lista pero no permite elementos repetidos, como al cargar clientes no validamos que el dni no se repita (todavia) y como no todos los clientes registrados tienen un turno, creamos un Set con cada dni unico que haya registrado (sin duplicados) de clientes que hayan solicitdo un turno al menos una vez, y el .size de un set es como el .lenght de un array
   const totalClientes = new Set(turnos.map((t) => t.cliente.dni)).size;
 
   const promedioPorCliente =
     totalClientes > 0 ? totalCobrado / totalClientes : 0;
 
-  const turnosRealizadosConMonto = turnos.filter(
-    (t) => t.estado === "realizado" && t.montoAbonado != null
-  );
+  const turnosRealizados = turnos.filter((t) => t.estado === "realizado");
 
+  // suma el total recaudado por todos los turnos de todos los clientes y lo divide en la cantidad de turnos
   const promedioPorTurno =
-    turnosRealizadosConMonto.length > 0
-      ? turnosRealizadosConMonto.reduce(
-          (sum, t) => sum + (t.montoAbonado || 0),
-          0
-        ) / turnosRealizadosConMonto.length
+    turnosRealizados.length > 0
+      ? turnosRealizados.reduce((sum, t) => sum + t.montoAbonado!, 0) /
+        turnosRealizados.length
       : 0;
 
   const totalTurnos = turnos.length;
-  const totalRealizados = turnos.filter((t) => t.estado === "realizado").length;
+  const totalRealizados = turnosRealizados.length;
   const totalCancelados = turnos.filter((t) => t.estado === "cancelado").length;
   const totalPendientes = turnos.filter((t) => t.estado === "pendiente").length;
 
-  // Agrupación por cliente (dni)
-  const agrupados = turnos.reduce<
-    Record<
-      string,
-      {
-        cliente: string;
-        cantidad: number;
-        totalGastado: number;
-        cancelados: number;
-      }
-    >
-  >((acc, t) => {
-    const dni = t.cliente.dni;
-    if (!acc[dni]) {
-      acc[dni] = {
-        cliente: `${t.cliente.nombre} ${t.cliente.apellido}`,
+  // agrupar turnos por cliente (dni)
+  const agrupados: Record<string, ClienteAgrupado> = {}; // objeto con claves string y valores del tipo ClienteAgrupado
+
+  turnos.forEach((turno) => {
+    const dni = turno.cliente.dni;
+
+    // si el cliente no esta en el objeto, lo agrega
+    if (!agrupados[dni]) {
+      agrupados[dni] = {
+        cliente: `${turno.cliente.nombre} ${turno.cliente.apellido}`,
         cantidad: 0,
         totalGastado: 0,
         cancelados: 0,
       };
     }
-    acc[dni].cantidad++;
-    if (t.estado === "realizado" && t.montoAbonado) {
-      acc[dni].totalGastado += t.montoAbonado;
+
+    // aumenta la cantidad de turnos
+    agrupados[dni].cantidad++;
+
+    // si fue realizado, suma el monto abonado
+    if (turno.estado === "realizado") {
+      agrupados[dni].totalGastado += turno.montoAbonado!;
     }
-    if (t.estado === "cancelado") {
-      acc[dni].cancelados++;
+
+    // si fue cancelado, aumenta el contador de cancelados
+    if (turno.estado === "cancelado") {
+      agrupados[dni].cancelados++;
     }
-    return acc;
-  }, {});
+  });
 
-  const destacados = Object.values(agrupados)
-    .sort((a, b) => b.totalGastado - a.totalGastado)
-    .slice(0, 5);
+  // clientes que mas gastaron en la barberia
+  const destacados = Object.values(agrupados) // crea un array solo de los valores del objeto (no las claves)
+    .sort((a, b) => b.totalGastado - a.totalGastado) // ordena de mayor a menor según cuanto gasto
+    .slice(0, 5); // toma los primeros 5
 
-  const turnosRealizados = turnos.filter((t) => t.estado === "realizado");
+  // contamos la cantidad de turnos realizados por cada cliente
+  const frecuentes: Record<string, ClienteFrecuente> = {};
 
-  const frecuentes = turnosRealizados.reduce<
-    Record<string, { cliente: string; cantidad: number }>
-  >((acc, turno) => {
+  turnosRealizados.forEach((turno) => {
     const dni = turno.cliente.dni;
-    if (!acc[dni]) {
-      acc[dni] = {
+
+    if (!frecuentes[dni]) {
+      frecuentes[dni] = {
         cliente: `${turno.cliente.nombre} ${turno.cliente.apellido}`,
         cantidad: 0,
       };
     }
-    acc[dni].cantidad++;
-    return acc;
-  }, {});
+
+    frecuentes[dni].cantidad++;
+  });
 
   const topFrecuentes = Object.values(frecuentes)
     .sort((a, b) => b.cantidad - a.cantidad)
@@ -100,11 +112,11 @@ const ReporteEstadisticasGenerales = ({ turnos }: Props) => {
             <strong>Total cobrado: </strong> {`$ ${totalCobrado.toFixed(2)}`}
           </li>
           <li>
-            <strong>Promedio gastado por cliente: </strong>
+            <strong>Promedio venta por cliente: </strong>
             {`$ ${promedioPorCliente.toFixed(2)}`}
           </li>
           <li>
-            <strong>Promedio gastado por turno: </strong>
+            <strong>Promedio venta por turno: </strong>
             {`$ ${promedioPorTurno.toFixed(2)}`}
           </li>
           <li>
@@ -123,7 +135,7 @@ const ReporteEstadisticasGenerales = ({ turnos }: Props) => {
       </div>
 
       <div className={styles.bloque}>
-        <h3>🏅 Clientes destacados (más gastaron)</h3>
+        <h3>🏅 Clientes destacados (mayor cantidad de ventas)</h3>
         <ol>
           {destacados.map((c) => (
             <li key={c.cliente}>
@@ -133,7 +145,7 @@ const ReporteEstadisticasGenerales = ({ turnos }: Props) => {
         </ol>
       </div>
       <div className={styles.bloque}>
-        <h3>📅 Clientes frecuentes (más turnos confirmados)</h3>
+        <h3>📅 Clientes frecuentes (mayor cantidad de turnos confirmados)</h3>
         <ol>
           {topFrecuentes.map((c) => (
             <li key={c.cliente}>
@@ -143,17 +155,20 @@ const ReporteEstadisticasGenerales = ({ turnos }: Props) => {
         </ol>
       </div>
       <div className={styles.bloque}>
-        <h3>❌ Clientes que más cancelan</h3>
+        <h3>❌ Clientes con mayor cantidad de turnos cancelados</h3>
         <ol>
-          {canceladores.map((c) => (
-            <li key={c.cliente}>
-              {c.cliente} - {c.cancelados} cancelados
-            </li>
-          ))}
+          {canceladores.map(
+            (c) =>
+              c.cancelados !== 0 && (
+                <li key={c.cliente}>
+                  {c.cliente} - {c.cancelados} cancelados
+                </li>
+              )
+          )}
         </ol>
       </div>
     </div>
   );
-};
+}
 
 export default ReporteEstadisticasGenerales;

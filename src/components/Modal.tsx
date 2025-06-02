@@ -5,6 +5,7 @@ type Props = {
   onClose: () => void;
 };
 
+// * modal generico para usar en la app
 function Modal({ children, onClose }: Props) {
   return (
     <div className={styles.backdrop}>

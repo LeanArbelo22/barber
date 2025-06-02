@@ -23,12 +23,12 @@ const horarios = [
   "12:30",
   "13:00",
   "13:30",
-  "14:00", // no se trabaja
+  "14:00", // desde esta hora no se trabaja
   "14:30",
   "15:00",
   "15:30",
   "16:00",
-  "16:30", // no se trabaja
+  "16:30", // hasta esta hora no se trabaja
   "17:00",
   "17:30",
   "18:00",
@@ -50,7 +50,7 @@ const fechaPorDia = (index: number) => {
   return format(dia, "yyyy-MM-dd");
 };
 
-const WeekAgenda = () => {
+function WeekAgenda() {
   const obtenerTurnos = useTurnoStore((state) => state.obtenerTurnosPorHorario);
   const [modalInfo, setModalInfo] = useState<{
     fecha: string;
@@ -139,6 +139,6 @@ const WeekAgenda = () => {
       )}
     </>
   );
-};
+}
 
 export default WeekAgenda;

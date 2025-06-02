@@ -1,6 +1,7 @@
 import { NavLink } from "react-router-dom";
 import styles from "../styles/sidebar.module.css";
 
+// * barra de navegacion lateral
 function Sidebar() {
   return (
     <nav className={styles.sidebar}>

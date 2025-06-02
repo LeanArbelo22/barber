@@ -9,13 +9,14 @@ type Props = {
   onBuscar: () => void;
 };
 
-const ReporteFiltros = ({
+// * barra de busqueda y filtrado
+function ReporteFiltros ({
   dni,
   setDni,
   estado,
   setEstado,
   onBuscar,
-}: Props) => {
+}: Props) {
   return (
     <div className={styles.filtersContainer}>
       <input

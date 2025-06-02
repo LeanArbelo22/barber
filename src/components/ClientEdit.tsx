@@ -12,8 +12,11 @@ type Props = {
   setClient: (client: Cliente | null) => void;
 };
 
+// * formulario modal de editar cliente
 function ClientEdit({client, setClient} : Props) {
+  // funcion de editar cliente en estado global de la app
   const editarCliente = useClientStore((state) => state.editarCliente);
+  // hook
   const { form, handleChange } = useClientForm(client);
 
   const handleSubmit = (e: React.FormEvent) => {

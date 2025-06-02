@@ -10,6 +10,7 @@ type Props = {
   children: React.ReactNode;
 };
 
+// * estructura del formulario de clientes (sirve para nuevo cliente y editar)
 function Form({
   className,
   title,

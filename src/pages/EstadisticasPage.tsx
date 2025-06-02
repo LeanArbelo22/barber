@@ -42,9 +42,15 @@ const EstadisticasPage = () => {
 
       <ReporteTabla turnos={turnosFiltrados} />
 
+      <h3>Generales</h3>
       <ReporteEstadisticasGenerales turnos={todosLosTurnos} />
 
-      {dni.trim() && <ReporteEstadisticasCliente turnos={turnosFiltrados} />}
+      {dni.trim() && (
+        <>
+          <h3>Cliente</h3>
+          <ReporteEstadisticasCliente turnos={turnosFiltrados} />
+        </>
+      )}
     </div>
   );
 };
