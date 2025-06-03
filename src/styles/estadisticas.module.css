@@ -80,7 +80,7 @@
 .filtersContainer {
   margin-bottom: 2rem;
   display: flex;
-  gap: 1rem;
+  gap: 0.5rem;
 }
 
 .filtersContainer input {
@@ -98,5 +98,5 @@
 }
 
 .filtersContainer button {
-  flex: 0.2;
+  flex: 0.1;
 }

@@ -28,6 +28,10 @@ const EstadisticasPage = () => {
     setTurnosFiltrados(resultado);
   };
 
+  const borrarFiltros = () => {
+    setTurnosFiltrados(todosLosTurnos);
+  };
+
   return (
     <div className='container'>
       <h1>Estadísticas y Reportes</h1>
@@ -38,6 +42,7 @@ const EstadisticasPage = () => {
         estado={estado}
         setEstado={setEstado}
         onBuscar={aplicarFiltros}
+        onBorrar={borrarFiltros}
       />
 
       <ReporteTabla turnos={turnosFiltrados} />

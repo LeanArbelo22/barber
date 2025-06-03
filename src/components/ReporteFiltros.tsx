@@ -1,5 +1,6 @@
 import type { EstadoTurno } from "../types";
 import styles from "../styles/estadisticas.module.css";
+import buttonStyles from "../styles/button.module.css";
 
 type Props = {
   dni: string;
@@ -7,16 +8,24 @@ type Props = {
   estado: EstadoTurno | "todos";
   setEstado: (estado: EstadoTurno | "todos") => void;
   onBuscar: () => void;
+  onBorrar: () => void;
 };
 
 // * barra de busqueda y filtrado
-function ReporteFiltros ({
+function ReporteFiltros({
   dni,
   setDni,
   estado,
   setEstado,
   onBuscar,
+  onBorrar,
 }: Props) {
+  const borrarTodo = () => {
+    onBorrar();
+    setDni("");
+    setEstado("todos");
+  };
+
   return (
     <div className={styles.filtersContainer}>
       <input
@@ -37,8 +46,11 @@ function ReporteFiltros ({
       </select>
 
       <button onClick={onBuscar}>Buscar</button>
+      <button className={buttonStyles.danger} onClick={borrarTodo}>
+        Borrar
+      </button>
     </div>
   );
-};
+}
 
 export default ReporteFiltros;
