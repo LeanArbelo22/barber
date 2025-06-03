@@ -39,3 +39,8 @@
   transform: scale(1.1);
   color: #1e4bb8;
 }
+
+.filters {
+  display: flex;
+  gap: 0.5rem;
+}

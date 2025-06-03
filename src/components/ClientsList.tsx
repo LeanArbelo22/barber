@@ -4,6 +4,7 @@ import Modal from "./Modal";
 import type { Cliente } from "../types";
 import toast from "react-hot-toast";
 import styles from "../styles/clientList.module.css";
+import buttonStyles from "../styles/button.module.css";
 import ClientEdit from "./ClientEdit";
 import ClientActions from "./ClientActions";
 import ClientView from "./ClientView";
@@ -27,6 +28,40 @@ function ClientsList() {
   const [historial, setHistorial] = useState<Cliente | null>(null);
   const [viewClient, setViewClient] = useState<Cliente | null>(null);
 
+  // logica del buscador
+  const [dataBuscador, setDataBuscador] = useState("");
+  const [resultados, setResultados] = useState<Cliente[]>(clientes);
+
+  // para que no discrimine acentos, minusculas o mayusculas
+  const normalizar = (texto: string) =>
+    texto
+      .normalize("NFD")
+      .replace(/[\u0300-\u036f]/g, "")
+      .toLowerCase();
+
+  const buscar = () => {
+    const texto = normalizar(dataBuscador.trim()); // normalizamos el texto ingresado por el usuario
+
+    // filtramos segun dni, nombre o apellido
+    const filtrados = clientes.filter(
+      (c) =>
+        c.dni.includes(texto) ||
+        c.nombre.toLowerCase().includes(texto) ||
+        c.apellido.toLowerCase().includes(texto)
+    );
+
+    setResultados(filtrados);
+  };
+
+  const onChangeBuscador = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setDataBuscador(e.target.value);
+  };
+
+  const limpiarFiltro = () => {
+    setDataBuscador("");
+    setResultados(clientes);
+  };
+
   if (clientes.length === 0) {
     return (
       <div>
@@ -38,6 +73,19 @@ function ClientsList() {
   return (
     <div>
       <h2>Listado</h2>
+      <div className={styles.filters}>
+        <input
+          type='text'
+          placeholder='Buscar por DNI, nombre o apellido'
+          value={dataBuscador}
+          onChange={onChangeBuscador}
+        />
+        <button onClick={buscar}>Buscar</button>
+        <button className={buttonStyles.danger} onClick={limpiarFiltro}>
+          Borrar
+        </button>
+      </div>
+
       <table className={styles.table}>
         <thead>
           <tr>
@@ -55,7 +103,7 @@ function ClientsList() {
           </tr>
         </thead>
         <tbody>
-          {clientes.map((cliente) => (
+          {resultados.map((cliente) => (
             <tr key={cliente.id}>
               <td>{cliente.dni}</td>
               <td>
