@@ -49,7 +49,7 @@ function TurnosPage() {
         {vista === "semana" ? (
           <WeekAgenda />
         ) : (
-          <p className={styles.placeholder}>Vista mensual próximamente...</p>
+          <p className={styles.placeholder}>FALTA IMPLEMENTAR</p>
         )}
       </div>
     </div>

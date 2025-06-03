@@ -1,5 +1,6 @@
 import { create } from "zustand";
 import type { Cliente, Turno } from "../types";
+import { turnos as dataTurnos } from "../data";
 
 interface TurnoState {
   // * si hacen click en "nuevo turno" desde los botones de accion del listado de clientes, se guarda la info del cliente seleccionado para pasarlo como estado a la pagina de turnos (y no tener que cargar de nuevo la info del cliete)
@@ -16,7 +17,7 @@ export const useTurnoStore = create<TurnoState>((set, get) => ({
   clienteSeleccionado: null,
   setClienteSeleccionado: (cliente) => set({ clienteSeleccionado: cliente }),
 
-  turnos: [],
+  turnos: dataTurnos,
 
   agregarTurno: (nuevo) =>
     set((state) => ({

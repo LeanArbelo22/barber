@@ -3,8 +3,9 @@ import { create } from "zustand";
 
 // uuid sirve para crear ids unicos de forma aleatoria
 import { v4 as uuidv4 } from "uuid";
-
 import type { Cliente } from "../types";
+
+import { clientes as dataClientes } from "../data";
 
 // creamos la interfaz del estado Cliente que va a manejar la app (incluye la DECLARACION del listado de clientes y de las funciones de ABM), solamente le decimos que va a tener
 interface ClientState {
@@ -24,40 +25,7 @@ interface ClientState {
 // useClientStore es un hook (una funcion especial, busquen que es un hook de react), lo vamos a usar en los componentes para acceder al estado y modificarlo
 export const useClientStore = create<ClientState>((set) => ({
   // este es el estado inicial (un listado de clientes inventados, si hubiera base de datos deberiamos cargarlos antes aca)
-  clientes: [
-    {
-      id: uuidv4(),
-      nombre: "Leandro",
-      apellido: "Arbelo",
-      dni: "39123456",
-      telefono: "3515123456",
-      email: "leandro@gmail.com",
-    },
-    {
-      id: uuidv4(),
-      nombre: "Nicolas",
-      apellido: "Avila",
-      dni: "38654321",
-      telefono: "3514654321",
-      email: "nicolas@gmail.com",
-    },
-    {
-      id: uuidv4(),
-      nombre: "Lazaro",
-      apellido: "Gonzalez",
-      dni: "40123456",
-      telefono: "3516754321",
-      email: "lazaro@gmail.com",
-    },
-    {
-      id: uuidv4(),
-      nombre: "Pedro",
-      apellido: "Cordon",
-      dni: "40654321",
-      telefono: "351332211",
-      email: "pedro@gmail.com",
-    },
-  ],
+  clientes: dataClientes,
 
   // aca IMPLEMENTAMOS las funciones de ABM que se decalraron en la interfaz del estado
   agregarCliente: (cliente) =>
