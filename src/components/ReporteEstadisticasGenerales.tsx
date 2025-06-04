@@ -109,7 +109,7 @@ function ReporteEstadisticasGenerales({ turnos }: Props) {
         <h2>📊 Estadísticas generales</h2>
         <ul>
           <li>
-            <strong>Total cobrado: </strong> {`$ ${totalCobrado.toFixed(2)}`}
+            <strong>Total de ventas: </strong> {`$ ${totalCobrado.toFixed(2)}`}
           </li>
           <li>
             <strong>Promedio venta por cliente: </strong>
@@ -145,7 +145,7 @@ function ReporteEstadisticasGenerales({ turnos }: Props) {
         </ol>
       </div>
       <div className={styles.bloque}>
-        <h3>📅 Clientes frecuentes (mayor cantidad de turnos confirmados)</h3>
+        <h3>📅 Clientes frecuentes (mayor cantidad de turnos realizados)</h3>
         <ol>
           {topFrecuentes.map((c) => (
             <li key={c.cliente}>
