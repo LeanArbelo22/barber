@@ -119,10 +119,10 @@ function ClientsList() {
                 onHistorial={setHistorial}
                 onDeshabilitar={(cliente) => {
                   const confirmacion = window.confirm(
-                    `¿Seguro que querés deshabilitar a ${cliente.nombre}?`
+                    `¿Seguro que querés eliminar a ${cliente.nombre}?`
                   );
                   if (confirmacion) {
-                    toast.success("Cliente deshabilitado");
+                    toast.success("Cliente eliminado");
                     // eliminarCliente(cliente.id);
                   }
                 }}

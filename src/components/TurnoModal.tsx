@@ -122,12 +122,17 @@ function TurnoModal({ fecha, hora, onClose, turnoExistente = null }: Props) {
 
         <label>
           Servicio:
-          <input
-            type='text'
+          <select
             value={servicio}
             onChange={(e) => setServicio(e.target.value)}
             className={styles.input}
-          />
+          >
+            <option value=''>Seleccionar...</option>
+            <option value='Corte'>Corte</option>
+            <option value='Barba'>Barba</option>
+            <option value='Corte y barba'>Corte y barba</option>
+            <option value='Tintura'>Tintura</option>
+          </select>
         </label>
 
         <label>
@@ -172,6 +177,7 @@ function TurnoModal({ fecha, hora, onClose, turnoExistente = null }: Props) {
               >
                 Cancelar turno
               </button>
+              <button className={buttonStyles.button}>Eliminar</button>
             </>
           )}
           <button

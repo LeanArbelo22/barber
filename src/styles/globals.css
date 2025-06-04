@@ -85,6 +85,17 @@ ul {
   padding: 0;
 }
 
+select {
+  flex: 0.3;
+  background-color: #2a2a2a;
+  border-radius: 6px;
+  color: #fff;
+  padding: 0 6px;
+  font-size: 0.9rem;
+  outline: none;
+  margin: 0 5px;
+}
+
 .container {
   max-width: 1280px;
   margin: 0 auto;
@@ -96,6 +107,3 @@ ul {
   margin-left: 220px;
   padding: 2rem;
 }
-
-
-
